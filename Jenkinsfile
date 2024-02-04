@@ -49,7 +49,7 @@ pipeline {
                 // Menjeda eksekusi selama 1 menit setelah deploy
                 sleep(time: 60, unit: 'SECONDS')
                 // Menjalankan skrip kill.sh setelah 1 menit
-                sh './scripts/kill.sh'
+                sh './jenkins/scripts/kill.sh'
             }
         }
     }
