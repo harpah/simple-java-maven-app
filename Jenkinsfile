@@ -20,10 +20,36 @@ pipeline {
             }
         }
 
-        stage('Deliver') {
+        stage('Manual Approval') {
+            steps {
+                script {
+                    userInput = input(
+                        id: 'manual-approval-input',
+                        message: 'Lanjutkan ke tahap Deploy?',
+                        parameters: [
+                            choice(choices: ['Proceed', 'Abort'], description: 'Pilih tindakan', name: 'ACTION')
+                        ]
+                    )
+                    
+                    if (userInput == 'Abort') {
+                        error("Pipeline dihentikan oleh pengguna.")
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
-                input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)' 
+            }
+        }
+
+        stage('Stop Application') {
+            steps {
+                // Menjeda eksekusi selama 1 menit setelah deploy
+                sleep(time: 60, unit: 'SECONDS')
+                // Menjalankan skrip kill.sh setelah 1 menit
+                sh './scripts/kill.sh'
             }
         }
     }
