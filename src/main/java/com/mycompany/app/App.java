@@ -5,7 +5,7 @@ package com.mycompany.app;
  */
 public class App {
 
-    private static final String MESSAGE = "INI SUBMISSION PROYEK FINAL";
+    private static final String MESSAGE = "Hello world!";
 
     public App() {}
 
